@@ -1,0 +1,26 @@
+.app-shell {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+.viewer-section {
+  flex: 2;
+  background-color: #e5e5e5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.controls-section {
+  flex: 1;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column; /* allow vertical stacking (header on top, selectors below) */
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0; /* remove padding to align header at top edge */
+  overflow-y: auto;
+  height: 100vh;
+}
