@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useConfigurator } from '../state/ConfigContext'
 import "../css/ModelSelector.css"
 
 function ModelSelector({ onSelect }) {
-  const [selected, setSelected] = useState('Defender 110')
+  const { config, setConfig } = useConfigurator()
   
   const options = [
     'Defender 110', 
@@ -12,8 +12,7 @@ function ModelSelector({ onSelect }) {
 ]
 
   const handleSelect = (model) => {
-    setSelected(model)
-    onSelect?.(model)
+        setConfig(prev => ({ ...prev, model }))  // update just the model
   }
 
   return (
@@ -23,7 +22,8 @@ function ModelSelector({ onSelect }) {
         <button
           key={title}
           onClick={() => handleSelect(title)}
-          className={selected === title ? 'selected' : ''}
+          className={config.model === title ? 'selected' : ''}
+
         >
           {title}
         </button>
