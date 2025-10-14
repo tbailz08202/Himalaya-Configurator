@@ -1,13 +1,11 @@
 import { useConfigurator } from '../state/ConfigContext'
 
 function ViewerArea() {
-  // Access the global state
   const { config } = useConfigurator()
 
   return (
     <div >
-      {/*Show which model is selected */}
-      <p>Currently viewing: {config.model}</p>
+      <p>Currently viewing: {config.model} {config.roof} {config.paint}</p>
     </div>
   )
 }
