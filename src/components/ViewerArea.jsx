@@ -19,7 +19,7 @@ const MODEL_URLS = {
 //Fallback if a given (model, roof) isn’t present yet
 const FALLBACK_URL = '/models/D90-Hard.glb'
 
-function ActiveCarModel({ urlKey }) {
+function CarModel({ urlKey }) {
   // urlKey is the final URL string; changing it will re-mount the model
   const { scene } = useGLTF(urlKey)
   return <primitive object={scene} />
@@ -50,8 +50,8 @@ export default function ViewerArea() {
           <ambientLight intensity={1} />
           <directionalLight position={[10, 10, 5]} intensity={2} />
 
-          {/* Key forces a clean re-mount whenever URL changes */}
-          <ActiveCarModel key={activeUrl} urlKey={activeUrl} />
+          <CarModel key={activeUrl} urlKey={activeUrl} />
+
 
           <OrbitControls
             enableZoom={false}

@@ -1,0 +1,62 @@
+.paint-selector {
+  display: grid;
+  gap: .5rem;
+  justify-items: center; 
+}
+
+.paint-selector h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  color: #333;
+  text-align: center;
+}
+
+.paint-selected-name {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #333;
+  opacity: .9;
+  margin-top: -0.25rem;
+  margin-bottom: .25rem;
+  text-align: center;
+}
+
+.paint-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 40px);
+  gap: 14px;
+  justify-content: center;  
+}
+
+.paint {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(0,0,0,.15);
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  transition: transform .08s ease, box-shadow .08s ease;
+}
+
+.paint:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 1px 6px rgba(0,0,0,.12);
+}
+
+.paint.selected {
+  border-color: rgba(0,0,0,.35);
+  box-shadow: 0 0 0 2px rgba(0,0,0,.08);
+}
+
+.paint.selected::after {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border-radius: 999px;
+  background-color: #ffffff;
+}

@@ -2,6 +2,7 @@ import ModelSelector from "./ModelSelector"
 import HeaderBar from "./HeaderBar"
 import "../css/HeaderBar.css"
 import RoofSelector from "./RoofSelector"
+import PaintSelector from "./PaintSelector"
 
 function ControlsArea(){
     return( 
@@ -9,6 +10,7 @@ function ControlsArea(){
             <HeaderBar/>
             <ModelSelector/>
             <RoofSelector/>
+            <PaintSelector/>
         </div>
     )
 }
