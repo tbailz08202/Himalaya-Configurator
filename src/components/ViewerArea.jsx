@@ -14,6 +14,10 @@ const MODEL_URLS = {
     'Hard Top': '/models/D110-Hard.glb',
     'Soft Top': '/models/D110-Soft.glb',
     'None': '/models/D110-Topless.glb'
+  },
+  'Defender 130': {
+    'Hard Top': '/models/D130.glb',
+    'Soft Top': '/models/D130-2.glb',
   }
 };
 
@@ -30,21 +34,46 @@ function ActiveCarModel({ url, paint}) {
     scene.traverse((child) => {
       if (child.isMesh && child.material) {
         const materialName = child.material.name;
-        const isPaintable = materialName === 'Paint' || materialName === 'Paint Secondary';
+        const isPaintable = materialName === 'Paint' || materialName === 'Paint Secondary' || materialName == 'Paint Matte';
 
-        if (materialName === 'Tires') {
-          child.material.color = new Color('#1a1a1a');
-          child.material.roughness = 0.9;
-          child.material.metalness = 0;
-          child.material.needsUpdate = true;
-        }
+      if (materialName === 'Tires') {
+        child.material.color = new Color('#1a1a1a');
+        child.material.roughness = 0.9;
+        child.material.metalness = 0;
+        child.material.needsUpdate = true;
+      }
 
-        if (child.name.includes('Front_Bumper') || child.name.includes('Capped_Front_Bumper')) {
-          child.material.color = new Color('#292929');
-          child.material.roughness = 0.3;
-          child.material.metalness = 0.1;
-          child.material.needsUpdate = true;
+      if (child.name.includes('Front_Bumper') || child.name.includes('Capped_Front_Bumper')) {
+        child.material.color = new Color('#292929');
+        child.material.roughness = 0.3;
+        child.material.metalness = 0.1;
+        child.material.needsUpdate = true;
+      }
+
+      if (materialName === 'Glass') {
+        if (!child.userData.originalMaterial) {
+          child.userData.originalMaterial = child.material.clone();
         }
+          
+        child.material = child.userData.originalMaterial.clone();
+        child.material.color = new Color('#1a1a1a'); // Dark tint
+        child.material.opacity = 0.3; // Adjust transparency (0-1)
+        child.material.metalness = 0.9; // High metalness for shine
+        child.material.roughness = 0.1; // Low roughness for glossy finish
+        child.material.transparent = true;
+        child.material.needsUpdate = true;
+      }
+
+      if (materialName === 'Interior' || materialName === 'Interior Secondary') {
+        if (!child.userData.originalMaterial) {
+          child.userData.originalMaterial = child.material.clone();
+        }
+        
+        child.material = child.userData.originalMaterial.clone();
+        child.material.metalness = 0; // No metalness
+        child.material.roughness = 0.9; // High roughness for matte finish
+        child.material.needsUpdate = true;
+      }
         
         if (isPaintable) {
           if (!child.userData.originalMaterial) {
@@ -59,6 +88,17 @@ function ActiveCarModel({ url, paint}) {
       }
     });
   }, [scene, paint]);
+
+  useEffect(() => {
+    if (!scene) return;
+    
+    console.log('=== Model meshes ===');
+    scene.traverse((child) => {
+      if (child.isMesh) {
+        console.log('Mesh name:', child.name, '| Material:', child.material?.name);
+      }
+    });
+  }, [scene]);
   
   return <primitive object={scene} />;
 }
