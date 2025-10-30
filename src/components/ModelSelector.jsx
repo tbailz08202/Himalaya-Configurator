@@ -5,10 +5,11 @@ function ModelSelector() {
   const { config, setConfig } = useConfigurator()
   
   const options = [
-    'Defender 110', 
+    'Defender 130', 
+    'Defender 110',
     'Defender 90', 
-    'Series 88', 
-    'Series 109'
+    'Series 109', 
+    'Series 88'
 ]
 
   const handleSelect = (model) => {
