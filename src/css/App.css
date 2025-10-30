@@ -17,10 +17,10 @@
   flex: 1;
   background-color: #ffffff;
   display: flex;
-  flex-direction: column; /* allow vertical stacking (header on top, selectors below) */
+  flex-direction: column; 
   justify-content: flex-start;
   align-items: center;
-  padding: 0; /* remove padding to align header at top edge */
+  padding: 0; 
   overflow-y: auto;
   height: 100vh;
 }

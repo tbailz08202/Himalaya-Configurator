@@ -3,42 +3,40 @@ import "../css/PaintSelector.css"
 import { useEffect } from "react"
 
 function PaintSelector(){
-    const {config, setConfig} = useConfigurator()
+  const {config, setConfig} = useConfigurator()
+  const paints = [
+    { paint: "Alpine White", hex: "#dcd8cf" },
+    { paint: "Fuji White", hex: "#f5f4e8" },
+    { paint: "Welsh Grey", hex: "#7f8283" },
+    { paint: "Westmister Grey", hex: "#555657" },
+    { paint: "Beluga Black", hex: "#0b0b0b" },
+    { paint: "Saharah Dust", hex: "#ded2bb" },
+    { paint: "Sandglow Yellow", hex: "#b48746" },
+    { paint: "Keswick Green", hex: "#46594c" },
+    { paint: "Grassmere Green", hex: "#728973" },
+    { paint: "Estanor Green", hex: "#636d5c" },
+    { paint: "Marine Blue", hex: "#4b738f" },
+    { paint: "Arles Blue", hex: "#3e5e81" },
+    { paint: "Persian Blue", hex: "#465d76" },
+    { paint: "Nolita Grey", hex: "#4a5058" },
+    { paint: "RAF Blue", hex: "#3f4853" },
+  ]
+  
+  const selected =
+  paints.find(p => config.paint === p.hex) ?? paints[0];
 
-    const paints = [
-        { paint: "Alpine White", hex: "#fff8e6ff" },
-        { paint: "Fuji White", hex: "#ffffffff" },
-        { paint: "Welsh Grey", hex: "#c5c5c5ff" },
-        { paint: "Westmister Grey", hex: "#606060f6" },
-        { paint: "Beluga Black", hex: "#000000ff" },
-        { paint: "Saharah Dust", hex: "#ffe2baff" },
-        { paint: "Sandglow Yellow", hex: "#e7ac2fff" },
-        { paint: "Keswick Green", hex: "#23433dff" },
-        { paint: "Grassmere Green", hex: "#68c36bff" },
-        { paint: "Estanor Green", hex: "#365a36ff" },
-        { paint: "Marine Blue", hex: "#3586bcff" },
-        { paint: "Arles Blue", hex: "#2c6596ff" },
-        { paint: "Persian Blue", hex: "#214c71ff" },
-        { paint: "Nolita Grey", hex: "#4f505aff" },
-        { paint: "RAF Blue", hex: "#49485fff" }
-    ]
-
-    const selected =
-    paints.find(p => (config.paint || "").toLowerCase() === p.hex.toLowerCase()) ??
-    paints[0];
-
-    useEffect(() => {
-        if (!config.paint) {
+  useEffect(() => {
+    if (!config.paint) {
             setConfig(prev => ({ ...prev, paint: selected.hex, paintName: selected.paint }));
-        }
-    }, [config.paint, selected.hex, selected.paint, setConfig]);
+          }
+        }, [config.paint, selected.hex, selected.paint, setConfig]);
+    
+  const selectPaint = (p) => {
+    setConfig(prev => ({ ...prev, paint: p.hex, paintName: p.paint }));
+  };
 
-    const selectPaint = (p) => {
-        setConfig(prev => ({ ...prev, paint: p.hex, paintName: p.paint }));
-    };
-
-    const isSelected = (hex) =>
-        (config.paint || "").toLowerCase() === (hex || "").toLowerCase();
+  const isSelected = (hex) =>
+    (config.paint || "").toLowerCase() === (hex || "").toLowerCase();
 
   return (
     <div className="paint-selector">

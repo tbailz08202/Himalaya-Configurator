@@ -1,7 +1,7 @@
 import { useConfigurator } from '../state/ConfigContext'
 import "../css/ModelSelector.css"
 
-function ModelSelector({ onSelect }) {
+function ModelSelector() {
   const { config, setConfig } = useConfigurator()
   
   const options = [
@@ -23,7 +23,6 @@ function ModelSelector({ onSelect }) {
           key={title}
           onClick={() => handleSelect(title)}
           className={config.model === title ? 'selected' : ''}
-
         >
           {title}
         </button>
