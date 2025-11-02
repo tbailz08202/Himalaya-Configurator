@@ -98,7 +98,7 @@ function ActiveCarModel({ url, paint, roofPaint }) {
           child.material.color = new Color(roofColor);
           child.material.needsUpdate = true;
         }
-        
+
         // Handle wheels with "Paint Secondary" material - always use body color
         else if (materialName === 'Paint Secondary' && (meshName.includes('Rims') || meshName.includes('Wheel'))) {
           if (!child.userData.originalMaterial) {
@@ -157,9 +157,11 @@ function ViewerArea() {
     <div style={{ width: '100%', height: '100vh' }}>
       <Canvas camera={{ position: [3, 25, 3], fov: 10 }}>
         <Suspense fallback={null}>
-          <Environment preset="forest" />
+          <Environment preset="city" />
           <ambientLight intensity={1} />
           <directionalLight position={[10, 20, 5]} intensity={2} />
+          <directionalLight position={[-10,20, -5]} intensity={2} />
+          <directionalLight position={[-5, 20, 0]} intensity={2} />
 
           <ActiveCarModel
             key={activeUrl + config.paint + config.roofPaint}
