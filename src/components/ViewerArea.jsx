@@ -89,14 +89,24 @@ function ActiveCarModel({ url, paint, roofPaint }) {
           child.material.needsUpdate = true;
         }
 
-        // Handle roof with "Paint Secondary" material (90/110 models with hard top)
-        if (materialName === 'Paint Secondary') {
+        if (materialName === 'Paint Secondary' && meshName.startsWith('Roof')) {
           if (!child.userData.originalMaterial) {
             child.userData.originalMaterial = child.material.clone();
           }
           
           child.material = child.userData.originalMaterial.clone();
           child.material.color = new Color(roofColor);
+          child.material.needsUpdate = true;
+        }
+        
+        // Handle wheels with "Paint Secondary" material - always use body color
+        else if (materialName === 'Paint Secondary' && (meshName.includes('Rims') || meshName.includes('Wheel'))) {
+          if (!child.userData.originalMaterial) {
+            child.userData.originalMaterial = child.material.clone();
+          }
+          
+          child.material = child.userData.originalMaterial.clone();
+          child.material.color = new Color(cleanHex);
           child.material.needsUpdate = true;
         }
         // Handle roof mesh by name (130 and topless models - mesh named "Roof")
@@ -123,7 +133,7 @@ function ActiveCarModel({ url, paint, roofPaint }) {
           }
         }
       }
-    });
+    })
   }, [scene, paint, roofPaint]);
   
   return <primitive object={scene} />;
@@ -145,7 +155,7 @@ function ViewerArea() {
 
   return (
     <div style={{ width: '100%', height: '100vh' }}>
-      <Canvas camera={{ position: [3, 22, 3], fov: 10 }}>
+      <Canvas camera={{ position: [3, 25, 3], fov: 10 }}>
         <Suspense fallback={null}>
           <Environment preset="forest" />
           <ambientLight intensity={1} />
