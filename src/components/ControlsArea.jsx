@@ -4,6 +4,7 @@ import "../css/HeaderBar.css"
 import RoofSelector from "./RoofSelector"
 import PaintSelector from "./PaintSelector"
 import RoofPaint from "./RoofPaint.jsx"
+import FenderColor from "./FenderColor.jsx"
 
 function ControlsArea(){
     return( 
@@ -13,6 +14,7 @@ function ControlsArea(){
             <RoofSelector/>
             <PaintSelector/>
             <RoofPaint/>
+            <FenderColor/>
         </div>
     )
 }

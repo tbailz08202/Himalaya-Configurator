@@ -8,7 +8,8 @@ export function ConfigProvider({ children }) {
     roof: 'Hard Top',
     paint: '#fff2d0',
     paintName: 'Alpine White',
-    roofPaint: 'Match Body'
+    roofPaint: 'Match Body',
+    fenderColor: 'Match Body'
   })
 
   const value = { config, setConfig }
