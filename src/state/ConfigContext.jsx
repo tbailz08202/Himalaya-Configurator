@@ -6,8 +6,9 @@ export function ConfigProvider({ children }) {
   const [config, setConfig] = useState({
     model: 'Defender 110',  
     roof: 'Hard Top',
-    paint: "#dcd8cf",
-    paintName: "Alpine White",
+    paint: '#fff2d0',
+    paintName: 'Alpine White',
+    roofPaint: 'Match Body'
   })
 
   const value = { config, setConfig }

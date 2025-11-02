@@ -8,12 +8,12 @@ function ModelSelector() {
     'Defender 130', 
     'Defender 110',
     'Defender 90', 
-    'Series 109', 
-    'Series 88'
+    'Series 88', 
+    'Series 109'
 ]
 
   const handleSelect = (model) => {
-        setConfig(prev => ({ ...prev, model }))  // update just the model
+    setConfig(prev => ({ ...prev, model }))  // update just the model
   }
 
   return (

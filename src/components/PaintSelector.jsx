@@ -4,8 +4,9 @@ import { useEffect } from "react"
 
 function PaintSelector(){
   const {config, setConfig} = useConfigurator()
+  
   const paints = [
-    { paint: "Alpine White", hex: "#dcd8cf" },
+    { paint: "Alpine White", hex: "#fff2d0" },
     { paint: "Fuji White", hex: "#f5f4e8" },
     { paint: "Welsh Grey", hex: "#7f8283" },
     { paint: "Westmister Grey", hex: "#555657" },
@@ -27,15 +28,15 @@ function PaintSelector(){
 
   useEffect(() => {
     if (!config.paint) {
-            setConfig(prev => ({ ...prev, paint: selected.hex, paintName: selected.paint }));
-          }
-        }, [config.paint, selected.hex, selected.paint, setConfig]);
+      setConfig(prev => ({ ...prev, paint: selected.hex, paintName: selected.paint }));
+    }
+  }, [config.paint, selected.hex, selected.paint, setConfig]);
     
   const selectPaint = (p) => {
     setConfig(prev => ({ ...prev, paint: p.hex, paintName: p.paint }));
   };
 
-  const isSelected = (hex) =>
+  const isSelected = (hex) => 
     (config.paint || "").toLowerCase() === (hex || "").toLowerCase();
 
   return (

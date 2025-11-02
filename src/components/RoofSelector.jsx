@@ -5,14 +5,14 @@ function RoofSelector(){
     const {config, setConfig} = useConfigurator()
 
     const options = [
-        "Hard Top",
-        "Soft Top",
-        "None"
+      "Hard Top",
+      "Soft Top",
+      "None"
     ]
 
-     const handleSelect = (roof) => {
-        setConfig(prev => ({ ...prev, roof }))  // update just the roof
-  }
+    const handleSelect = (roof) => {
+      setConfig(prev => ({ ...prev, roof }))  // update just the roof
+    }
 
   const getSelectedIndex = () => {
     const index = options.indexOf(config.roof)

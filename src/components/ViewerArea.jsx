@@ -23,71 +23,8 @@ const MODEL_URLS = {
 
 const FALLBACK_URL = '/models/D90-Hard.glb';
 
-function ActiveCarModel({ url, paint}) {
+function ActiveCarModel({ url, paint, roofPaint }) {
   const { scene } = useGLTF(url);
-  
-  useEffect(() => {
-    if (!scene || !paint) return;
-    
-    const cleanHex = paint;
-    
-    scene.traverse((child) => {
-      if (child.isMesh && child.material) {
-        const materialName = child.material.name;
-        const isPaintable = materialName === 'Paint' || materialName === 'Paint Secondary' || materialName == 'Paint Matte';
-
-      if (materialName === 'Tires') {
-        child.material.color = new Color('#1a1a1a');
-        child.material.roughness = 0.9;
-        child.material.metalness = 0;
-        child.material.needsUpdate = true;
-      }
-
-      if (child.name.includes('Front_Bumper') || child.name.includes('Capped_Front_Bumper')) {
-        child.material.color = new Color('#292929');
-        child.material.roughness = 0.3;
-        child.material.metalness = 0.1;
-        child.material.needsUpdate = true;
-      }
-
-      if (materialName === 'Glass') {
-        if (!child.userData.originalMaterial) {
-          child.userData.originalMaterial = child.material.clone();
-        }
-          
-        child.material = child.userData.originalMaterial.clone();
-        child.material.color = new Color('#1a1a1a'); // Dark tint
-        child.material.opacity = 0.3; // Adjust transparency (0-1)
-        child.material.metalness = 0.9; // High metalness for shine
-        child.material.roughness = 0.1; // Low roughness for glossy finish
-        child.material.transparent = true;
-        child.material.needsUpdate = true;
-      }
-
-      if (materialName === 'Interior' || materialName === 'Interior Secondary') {
-        if (!child.userData.originalMaterial) {
-          child.userData.originalMaterial = child.material.clone();
-        }
-        
-        child.material = child.userData.originalMaterial.clone();
-        child.material.metalness = 0; // No metalness
-        child.material.roughness = 0.9; // High roughness for matte finish
-        child.material.needsUpdate = true;
-      }
-        
-        if (isPaintable) {
-          if (!child.userData.originalMaterial) {
-            child.userData.originalMaterial = child.material.clone();
-          }
-          
-          child.material = child.userData.originalMaterial.clone();
-          child.material.color = new Color(cleanHex);
-          
-          child.material.needsUpdate = true;
-        }
-      }
-    });
-  }, [scene, paint]);
 
   useEffect(() => {
     if (!scene) return;
@@ -99,6 +36,95 @@ function ActiveCarModel({ url, paint}) {
       }
     });
   }, [scene]);
+  
+  useEffect(() => {
+    if (!scene || !paint) return;
+    
+    const cleanHex = paint;
+    const whiteHex = "#fff2d0";
+    const roofColor = roofPaint === "Alpine White" ? whiteHex : cleanHex;
+
+    
+    scene.traverse((child) => {
+      if (child.isMesh && child.material) {
+        const materialName = child.material.name;
+        const meshName = child.name;
+      
+        if (materialName === 'Tires') {
+          child.material.color = new Color('#1a1a1a');
+          child.material.roughness = 0.9;
+          child.material.metalness = 0;
+          child.material.needsUpdate = true;
+        }
+
+        if (child.name.includes('Front_Bumper') || child.name.includes('Capped_Front_Bumper')) {
+          child.material.color = new Color('#292929');
+          child.material.roughness = 0.3;
+          child.material.metalness = 0.1;
+          child.material.needsUpdate = true;
+        }
+
+        if (materialName === 'Glass') {
+          if (!child.userData.originalMaterial) {
+            child.userData.originalMaterial = child.material.clone();
+          }
+          
+          child.material = child.userData.originalMaterial.clone();
+          child.material.color = new Color('#1a1a1a');
+          child.material.opacity = 0.3;
+          child.material.metalness = 0.9;
+          child.material.roughness = 0.1;
+          child.material.transparent = true;
+          child.material.needsUpdate = true;
+        }
+
+        if (materialName === 'Interior' || materialName === 'Interior Secondary') {
+          if (!child.userData.originalMaterial) {
+            child.userData.originalMaterial = child.material.clone();
+          }
+          
+          child.material = child.userData.originalMaterial.clone();
+          child.material.metalness = 0;
+          child.material.roughness = 0.9;
+          child.material.needsUpdate = true;
+        }
+
+        // Handle roof with "Paint Secondary" material (90/110 models with hard top)
+        if (materialName === 'Paint Secondary') {
+          if (!child.userData.originalMaterial) {
+            child.userData.originalMaterial = child.material.clone();
+          }
+          
+          child.material = child.userData.originalMaterial.clone();
+          child.material.color = new Color(roofColor);
+          child.material.needsUpdate = true;
+        }
+        // Handle roof mesh by name (130 and topless models - mesh named "Roof")
+        else if (meshName === 'Roof' && (materialName === 'Paint Matte' || materialName === 'Paint')) {
+          if (!child.userData.originalMaterial) {
+            child.userData.originalMaterial = child.material.clone();
+          }
+          
+          child.material = child.userData.originalMaterial.clone();
+          child.material.color = new Color(roofColor);
+          child.material.needsUpdate = true;
+        }
+        // Handle body paint (Paint or Paint Matte, but NOT the roof mesh)
+        else {
+          const isPaintable = (materialName === 'Paint' || materialName === 'Paint Matte') && meshName !== 'Roof';
+          if (isPaintable) {
+            if (!child.userData.originalMaterial) {
+              child.userData.originalMaterial = child.material.clone();
+            }
+            
+            child.material = child.userData.originalMaterial.clone();
+            child.material.color = new Color(cleanHex);
+            child.material.needsUpdate = true;
+          }
+        }
+      }
+    });
+  }, [scene, paint, roofPaint]);
   
   return <primitive object={scene} />;
 }
@@ -126,9 +152,10 @@ function ViewerArea() {
           <directionalLight position={[10, 20, 5]} intensity={2} />
 
           <ActiveCarModel
-            key={activeUrl + config.paint}
+            key={activeUrl + config.paint + config.roofPaint}
             url={activeUrl}
             paint={config.paint}
+            roofPaint={config.roofPaint}
           />
 
           <ContactShadows 
