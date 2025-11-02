@@ -17,7 +17,7 @@ const MODEL_URLS = {
   },
   'Defender 130': {
     'Hard Top': '/models/D130.glb',
-    'Soft Top': '/models/D130-2.glb',
+    'Topless': '/models/D130-2.glb',
   }
 };
 
@@ -121,7 +121,7 @@ function ActiveCarModel({ url, paint, roofPaint }) {
         }
         // Handle body paint (Paint or Paint Matte, but NOT the roof mesh)
         else {
-          const isPaintable = (materialName === 'Paint' || materialName === 'Paint Matte') && meshName !== 'Roof';
+          const isPaintable = (materialName === 'Paint' || materialName === 'Paint Matte' || meshName.includes('Mirrors_1')) && meshName !== 'Roof';
           if (isPaintable) {
             if (!child.userData.originalMaterial) {
               child.userData.originalMaterial = child.material.clone();
@@ -159,9 +159,9 @@ function ViewerArea() {
         <Suspense fallback={null}>
           <Environment preset="city" />
           <ambientLight intensity={1} />
-          <directionalLight position={[10, 20, 5]} intensity={2} />
-          <directionalLight position={[-10,20, -5]} intensity={2} />
-          <directionalLight position={[-5, 20, 0]} intensity={2} />
+          <directionalLight position={[10, 20, 5]} intensity={1} />
+          <directionalLight position={[-10,20, -5]} intensity={1} />
+          <directionalLight position={[-5, 20, 0]} intensity={1} />
 
           <ActiveCarModel
             key={activeUrl + config.paint + config.roofPaint}
