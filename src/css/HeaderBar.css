@@ -5,7 +5,6 @@
   align-items: center;
   justify-content: center; 
   padding: 0.75rem 1rem;
-  border-bottom: 3px solid #000000;
   z-index: 10;
   background: #ffffff;
 }
@@ -17,6 +16,17 @@
   letter-spacing: 0.05em;
   margin: 0;
   color: #333;
+}
+
+.header-bar h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 80%;              /* adjust line length */
+  height: 3px;
+  background: #000;
+  transform: translateX(-50%);
 }
 
 .header-bar img {

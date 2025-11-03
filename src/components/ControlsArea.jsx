@@ -1,6 +1,6 @@
+import '../css/ControlsArea.css'
 import ModelSelector from "./ModelSelector"
 import HeaderBar from "./HeaderBar"
-import "../css/HeaderBar.css"
 import RoofSelector from "./RoofSelector"
 import PaintSelector from "./PaintSelector"
 import RoofPaint from "./RoofPaint.jsx"
@@ -15,10 +15,12 @@ function ControlsArea(){
             <ModelSelector/>
             <RoofSelector/>
             <PaintSelector/>
-            <RoofPaint/>
-            <FenderColor/>
-            <MirrorColor/>
-            <HeadlightTrimColor/>
+            <div className="container">
+                <RoofPaint/>
+                <FenderColor/>
+                <MirrorColor/>
+                <HeadlightTrimColor/>
+            </div>        
         </div>
     )
 }

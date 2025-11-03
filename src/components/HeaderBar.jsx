@@ -1,4 +1,5 @@
 import himalayaLogo from '../assets/himalaya-logo.png'
+import "../css/HeaderBar.css"
 
 function HeaderBar() {
   return (
