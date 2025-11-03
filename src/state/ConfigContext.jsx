@@ -10,7 +10,9 @@ export function ConfigProvider({ children }) {
     paintName: 'Alpine White',
     roofPaint: 'Match Body',
     fenderColor: 'Match Body',
-    mirrorColor: 'Match Body'
+    mirrorColor: 'Match Body',
+    headlightColor: 'Match Body'
+
   })
 
   const value = { config, setConfig }

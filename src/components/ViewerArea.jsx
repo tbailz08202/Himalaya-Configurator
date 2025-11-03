@@ -23,7 +23,7 @@ const MODEL_URLS = {
 
 const FALLBACK_URL = '/models/D90-Hard.glb';
 
-function ActiveCarModel({ url, paint, roofPaint, fenderColor, mirrorColor}) {
+function ActiveCarModel({ url, paint, roofPaint, fenderColor, mirrorColor, headlightColor}) {
   const { scene } = useGLTF(url);
 
   useEffect(() => {
@@ -48,6 +48,7 @@ function ActiveCarModel({ url, paint, roofPaint, fenderColor, mirrorColor}) {
     const roofColor = roofPaint === "Alpine White" ?  NAMED['Alpine White'] : paint;
     const fenderPaint = fenderColor === "Beluga Black" ?  NAMED['Beluga Black'] : paint;
     const mirrorPaint = mirrorColor === "Beluga Black" ? NAMED['Beluga Black'] : paint;
+    const headlightPaint = headlightColor === "Beluga Black" ? NAMED['Beluga Black'] : paint;
 
 
     
@@ -136,6 +137,17 @@ function ActiveCarModel({ url, paint, roofPaint, fenderColor, mirrorColor}) {
         child.material.color = new Color(mirrorPaint);
         child.material.needsUpdate = true;
       }
+      // Handle headlight trim separately
+      else if (meshName === 'Headlight_Bezels001_4' || meshName === 'Headlight_Bezels001_3' || 
+        meshName === 'Headlight_Bezels003_3') {
+        if (!child.userData.originalMaterial) {
+          child.userData.originalMaterial = child.material.clone();
+        }
+        
+        child.material = child.userData.originalMaterial.clone();
+        child.material.color = new Color(headlightPaint);
+        child.material.needsUpdate = true;
+      }
       // Handle body paint (Paint or Paint Matte, but NOT the roof mesh or fenders)
       else if (materialName === 'Paint' || materialName === 'Paint Matte') {
         const isPaintable = meshName !== 'Roof' && meshName !== 'Fenders';
@@ -152,7 +164,7 @@ function ActiveCarModel({ url, paint, roofPaint, fenderColor, mirrorColor}) {
       }
     }
   })
-  }, [scene, paint, roofPaint, fenderColor, mirrorColor]);
+  }, [scene, paint, roofPaint, fenderColor, mirrorColor, headlightColor]);
   
   return <primitive object={scene} />;
 }
@@ -182,12 +194,13 @@ function ViewerArea() {
           <directionalLight position={[-5, 20, 0]} intensity={1} />
 
           <ActiveCarModel
-            key={activeUrl + config.paint + config.roofPaint + config.fenderColor}
+            key={activeUrl + config.paint + config.roofPaint + config.fenderColor + config.headlightColor}
             url={activeUrl}
             paint={config.paint}
             roofPaint={config.roofPaint}
             fenderColor={config.fenderColor}
             mirrorColor={config.mirrorColor}
+            headlightColor={config.headlightColor}
           />
 
           <ContactShadows 
