@@ -5,6 +5,7 @@ import RoofSelector from "./RoofSelector"
 import PaintSelector from "./PaintSelector"
 import RoofPaint from "./RoofPaint.jsx"
 import FenderColor from "./FenderColor.jsx"
+import MirrorColor from "./MirrorColor.jsx"
 
 function ControlsArea(){
     return( 
@@ -15,6 +16,7 @@ function ControlsArea(){
             <PaintSelector/>
             <RoofPaint/>
             <FenderColor/>
+            <MirrorColor/>
         </div>
     )
 }

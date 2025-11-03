@@ -23,7 +23,7 @@ const MODEL_URLS = {
 
 const FALLBACK_URL = '/models/D90-Hard.glb';
 
-function ActiveCarModel({ url, paint, roofPaint, fenderColor }) {
+function ActiveCarModel({ url, paint, roofPaint, fenderColor, mirrorColor}) {
   const { scene } = useGLTF(url);
 
   useEffect(() => {
@@ -40,10 +40,15 @@ function ActiveCarModel({ url, paint, roofPaint, fenderColor }) {
   useEffect(() => {
     if (!scene || !paint) return;
     
-    const cleanHex = paint;
+    const NAMED = {
+      'Alpine White': '#fff2d0',
+      'Beluga Black': '#0b0b0b',
+  
+    };
+    const roofColor = roofPaint === "Alpine White" ?  NAMED['Alpine White'] : paint;
+    const fenderPaint = fenderColor === "Beluga Black" ?  NAMED['Beluga Black'] : paint;
+    const mirrorPaint = mirrorColor === "Beluga Black" ? NAMED['Beluga Black'] : paint;
 
-    const roofColor = roofPaint === "Alpine White" ? "#fff2d0" : cleanHex;
-    const fenderPaint = fenderColor === "Beluga Black" ? "#0b0b0b" : cleanHex;
 
     
     scene.traverse((child) => {
@@ -90,18 +95,8 @@ function ActiveCarModel({ url, paint, roofPaint, fenderColor }) {
           child.material.needsUpdate = true;
         }
 
-        if (meshName.startsWith('Roof')) {
-          if (!child.userData.originalMaterial) {
-            child.userData.originalMaterial = child.material.clone();
-          }
-          
-          child.material = child.userData.originalMaterial.clone();
-          child.material.color = new Color(roofColor);
-          child.material.needsUpdate = true;
-        }
-
       // Handle roof with "Paint Secondary" material (90/110 models with hard top)
-      if (materialName === 'Paint Secondary' && meshName.startsWith('Roof')) {
+      if (meshName.startsWith('Roof')) {
         if (!child.userData.originalMaterial) {
           child.userData.originalMaterial = child.material.clone();
         }
@@ -111,27 +106,18 @@ function ActiveCarModel({ url, paint, roofPaint, fenderColor }) {
         child.material.needsUpdate = true;
       }
       // Handle wheels with "Paint Secondary" material - always use body color
-      else if (materialName === 'Paint Secondary' && (meshName.includes('Rims') || meshName.includes('Wheel') || meshName.includes('Spare'))) {
+      else if (materialName === 'Paint Secondary' && (meshName.includes('Rims') 
+        || meshName.includes('Wheel') || meshName.includes('Spare'))) {
         if (!child.userData.originalMaterial) {
           child.userData.originalMaterial = child.material.clone();
         }
         
         child.material = child.userData.originalMaterial.clone();
-        child.material.color = new Color(cleanHex);
+        child.material.color = new Color(paint);
         child.material.needsUpdate = true;
-      }
-      // Handle roof mesh by name (130 and topless models - mesh named "Roof")
-      else if (meshName === 'Roof' && (materialName === 'Paint Matte' || materialName === 'Paint')) {
-        if (!child.userData.originalMaterial) {
-          child.userData.originalMaterial = child.material.clone();
-        }
-        
-        child.material = child.userData.originalMaterial.clone();
-        child.material.color = new Color(roofColor);
-        child.material.needsUpdate = true;
-      }
+      }     
       // Handle fenders separately
-      else if (materialName === 'Paint' && meshName === 'Fenders') {
+      else if (meshName === 'Fenders' || meshName === 'BodyPaint002') {
         if (!child.userData.originalMaterial) {
           child.userData.originalMaterial = child.material.clone();
         }
@@ -140,8 +126,18 @@ function ActiveCarModel({ url, paint, roofPaint, fenderColor }) {
         child.material.color = new Color(fenderPaint);
         child.material.needsUpdate = true;
       }
+      // Handle mirros separately
+      else if (meshName === 'Mirrors_1') {
+        if (!child.userData.originalMaterial) {
+          child.userData.originalMaterial = child.material.clone();
+        }
+        
+        child.material = child.userData.originalMaterial.clone();
+        child.material.color = new Color(mirrorPaint);
+        child.material.needsUpdate = true;
+      }
       // Handle body paint (Paint or Paint Matte, but NOT the roof mesh or fenders)
-      else if (materialName === 'Paint' || materialName === 'Paint Matte' || meshName === 'Mirrors_1') {
+      else if (materialName === 'Paint' || materialName === 'Paint Matte') {
         const isPaintable = meshName !== 'Roof' && meshName !== 'Fenders';
                             
         if (isPaintable) {
@@ -150,13 +146,13 @@ function ActiveCarModel({ url, paint, roofPaint, fenderColor }) {
           }
           
           child.material = child.userData.originalMaterial.clone();
-          child.material.color = new Color(cleanHex);
+          child.material.color = new Color(paint);
           child.material.needsUpdate = true;
         }
       }
     }
   })
-  }, [scene, paint, roofPaint, fenderColor]);
+  }, [scene, paint, roofPaint, fenderColor, mirrorColor]);
   
   return <primitive object={scene} />;
 }
@@ -191,6 +187,7 @@ function ViewerArea() {
             paint={config.paint}
             roofPaint={config.roofPaint}
             fenderColor={config.fenderColor}
+            mirrorColor={config.mirrorColor}
           />
 
           <ContactShadows 

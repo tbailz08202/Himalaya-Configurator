@@ -1,10 +1,10 @@
-.fender-color {
+.mirror-color {
   display: grid;
   gap: .5rem;
   justify-items: center; 
 }
 
-.fender-color h3 {
+.mirror-color h3 {
   font-size: 1rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -15,7 +15,7 @@
   text-align: center;
 }
 
-.fender-selected-name {
+.mirror-selected-name {
   font-size: 1.05rem;
   font-weight: 500;
   color: #333;
@@ -25,13 +25,13 @@
   text-align: center;
 }
 
-.fender-buttons {
+.mirror-buttons {
   display: flex;
   gap: 14px;
   justify-content: center;  
 }
 
-.fender-buttons button {
+.mirror-buttons button {
   width: 40px;
   height: 40px;
   border-radius: 999px;
@@ -43,11 +43,11 @@
   background-color: #0b0b0b;
 }
 
-.fender-buttons button:first-child {
+.mirror-buttons button:first-child {
   background-color: white;
 }
 
-.fender-buttons button:first-child::before {
+.mirror-buttons button:first-child::before {
   content: '';
   position: absolute;
   top: 50%;
@@ -58,17 +58,17 @@
   background-color: #666;
 }
 
-.fender-buttons button:hover {
+.mirror-buttons button:hover {
   transform: translateY(-1px);
   box-shadow: 0 1px 6px rgba(0,0,0,.12);
 }
 
-.fender-buttons button.selected {
+.mirror-buttons button.selected {
   border-color: rgba(0,0,0,.35);
   box-shadow: 0 0 0 2px rgba(0,0,0,.08);
 }
 
-.fender-buttons button:last-child.selected::after {
+.mirror-buttons button:last-child.selected::after {
   content: "";
   position: absolute;
   inset: 12px;

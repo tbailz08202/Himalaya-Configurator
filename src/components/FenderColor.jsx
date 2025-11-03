@@ -11,7 +11,7 @@ function FenderColor(){
     return (
     <div className="fender-color">
       <h3>Fender Color</h3>
-      <div className="paint-selected-name">{config.fenderColor}</div>
+      <div className="fender-selected-name">{config.fenderColor}</div>
       
       <div className="fender-buttons">
         <button
