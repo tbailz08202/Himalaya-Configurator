@@ -3,12 +3,16 @@ import ModelSelector from "./ModelSelector"
 import HeaderBar from "./HeaderBar"
 import RoofSelector from "./RoofSelector"
 import PaintSelector from "./PaintSelector"
-import RoofPaint from "./RoofPaint.jsx"
+import RoofColor from "./RoofColor.jsx"
+import RoofColorSoft from "./RoofColorSoft.jsx"
 import FenderColor from "./FenderColor.jsx"
 import MirrorColor from "./MirrorColor.jsx"
 import HeadlightTrimColor from "./HeadlightTrimColor.jsx"
+import { useConfigurator } from "../state/ConfigContext"
 
 function ControlsArea(){
+    const {config, setConfig} = useConfigurator()
+    
     return( 
         <div className="controls-area">
             <HeaderBar/>
@@ -16,7 +20,7 @@ function ControlsArea(){
             <RoofSelector/>
             <PaintSelector/>
             <div className="container">
-                <RoofPaint/>
+                {config.roof === "Soft Top" ? <RoofColorSoft/> : <RoofColor/>}
                 <FenderColor/>
                 <MirrorColor/>
                 <HeadlightTrimColor/>

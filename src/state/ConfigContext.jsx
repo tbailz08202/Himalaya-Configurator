@@ -8,11 +8,11 @@ export function ConfigProvider({ children }) {
     roof: 'Hard Top',
     paint: '#fff2d0',
     paintName: 'Alpine White',
-    roofPaint: 'Match Body',
+    roofColor: 'Match Body',
+    roofColorSoft: 'Black',
     fenderColor: 'Match Body',
     mirrorColor: 'Match Body',
     headlightColor: 'Match Body'
-
   })
 
   const value = { config, setConfig }

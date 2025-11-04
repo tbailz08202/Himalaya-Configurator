@@ -1,25 +1,25 @@
 import { useConfigurator } from "../state/ConfigContext"
-import "../css/RoofPaint.css"
+import "../css/RoofColor.css"
 
-function RoofPaint(){
+function RoofColor(){
     const {config, setConfig} = useConfigurator();
 
     const handleSelect = (color) => {
-        setConfig(prev => ({...prev, roofPaint: color}))
+        setConfig(prev => ({...prev, roofColor: color}))
     }
     
     return (
-    <div className="roof-paint">
+    <div className="roof-color">
       <h3>Roof Color</h3>
-      <div className="paint-selected-name">{config.roofPaint}</div>
+      <div className="paint-selected-name">{config.roofColor}</div>
       
       <div className="buttons">
         <button
-            className={config.roofPaint === "Match Body" ? "selected" : ""}
+            className={config.roofColor === "Match Body" ? "selected" : ""}
             onClick={() => handleSelect("Match Body")}
         />
          <button
-            className={config.roofPaint === "Alpine White" ? "selected" : ""}
+            className={config.roofColor === "Alpine White" ? "selected" : ""}
             onClick={() => handleSelect('Alpine White')}
         />
       </div> 
@@ -27,4 +27,4 @@ function RoofPaint(){
   )
 }
 
-export default RoofPaint
+export default RoofColor

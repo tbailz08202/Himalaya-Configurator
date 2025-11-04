@@ -15,7 +15,7 @@ function PaintSelector(){
     { paint: "Sandglow Yellow", hex: "#b48746" },
     { paint: "Keswick Green", hex: "#46594c" },
     { paint: "Grassmere Green", hex: "#728973" },
-    { paint: "Estanor Green", hex: "#636d5c" },
+    { paint: "Eastnor Green", hex: "#636d5c" },
     { paint: "Marine Blue", hex: "#4b738f" },
     { paint: "Arles Blue", hex: "#3e5e81" },
     { paint: "Persian Blue", hex: "#465d76" },
