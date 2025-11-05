@@ -108,7 +108,13 @@ function ActiveCarModel({
       if (materialName === 'Tires') {
         applyColor(child, '#1a1a1a', { metalness: 0, roughness: 0.9 });
         return;
-      }  
+      }
+      
+      //Handles cage color on topless Defender 110
+      if (meshName === 'Exterior_Cage_1'){
+        applyColor(child, '#0b0b0b');
+        return;
+      }
 
       //Handles bumper color
       if (meshName.includes('Front_Bumper') || meshName.includes('Capped_Front_Bumper')) {
