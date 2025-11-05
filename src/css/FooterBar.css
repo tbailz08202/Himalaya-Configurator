@@ -1,0 +1,31 @@
+.footer-bar {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  padding: 2.5rem 2.5rem;
+  z-index: 10;
+  background: #ffffff;
+  margin-top: 2rem;
+}
+
+.footer-bar h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+  color: #333;
+}
+
+.footer-bar h2::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 80%;              
+  height: 3px;
+  background: #000;
+  transform: translateX(-50%);
+}

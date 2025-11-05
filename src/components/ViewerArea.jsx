@@ -55,17 +55,20 @@ function ActiveCarModel({
       'Fuji White': '#f5f4e8',
       'Beluga Black': '#0b0b0b',
       'Sand': '#c09873',
-      'Deep Green': '#263519'
+      'Deep Green': '#32382a'
     }
 
     const roofPaint = roofColor === "Alpine White" ?  NAMED['Alpine White'] : paint;
+    
     const roofPaintSoft = 
       roofColorSoft === "Sand" ? NAMED["Sand"] 
         : roofColorSoft === "Deep Green" ? NAMED["Deep Green"]
         : null;
+    
     const fenderPaint = fenderColor === "Beluga Black" ?  NAMED['Beluga Black'] : paint;
     const mirrorPaint = mirrorColor === "Beluga Black" ? NAMED['Beluga Black'] : paint;
     const headlightPaint = headlightColor === "Beluga Black" ? NAMED['Beluga Black'] : paint;
+    
     const wheelPaint =
       wheelColor === "Alpine White" ? NAMED["Alpine White"] 
         : wheelColor === "Fuji White" ? NAMED["Fuji White"]

@@ -10,6 +10,7 @@ import MirrorColor from "./MirrorColor.jsx"
 import HeadlightTrimColor from "./HeadlightTrimColor.jsx"
 import { useConfigurator } from "../state/ConfigContext"
 import WheelColor from './WheelColor.jsx'
+import FooterBar from './FooterBar.jsx'
 
 function ControlsArea(){
     const {config, setConfig} = useConfigurator()
@@ -29,6 +30,7 @@ function ControlsArea(){
             {((config.model == "Defender 110" && (config.roof == "Soft Top" || config.roof == "None"))
             || (config.model == "Defender 90" && config.roof == "None")
             || (config.model == "Defender 130" && config.roof == "None")) && <WheelColor/>}
+            <FooterBar/>
         </div>
     )
 }
