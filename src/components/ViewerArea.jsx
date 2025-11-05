@@ -112,7 +112,14 @@ function ActiveCarModel({
         applyColor(child, '#1a1a1a', { metalness: 0, roughness: 0.9 });
         return;
       }
-      
+      //Makes headlights look more realistic
+      if (materialName === 'Headlight Clear') {
+        applyColor(child, '#ffffff', { transparent: true, opacity: 0.4, metalness: 0.6, roughness: 0.05 });
+        child.material.refractionRatio = 0;
+        child.material.ior = 2;
+        child.material.needsUpdate = true;
+        return;
+      }
       //Handles cage color on topless Defender 110
       if (meshName === 'Exterior_Cage_1'){
         applyColor(child, '#0b0b0b');
