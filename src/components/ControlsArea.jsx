@@ -9,6 +9,7 @@ import FenderColor from "./FenderColor.jsx"
 import MirrorColor from "./MirrorColor.jsx"
 import HeadlightTrimColor from "./HeadlightTrimColor.jsx"
 import { useConfigurator } from "../state/ConfigContext"
+import WheelColor from './WheelColor.jsx'
 
 function ControlsArea(){
     const {config, setConfig} = useConfigurator()
@@ -24,7 +25,10 @@ function ControlsArea(){
                 <FenderColor/>
                 <MirrorColor/>
                 <HeadlightTrimColor/>
-            </div>        
+            </div>
+            {((config.model == "Defender 110" && (config.roof == "Soft Top" || config.roof == "None"))
+            || (config.model == "Defender 90" && config.roof == "None")
+            || (config.model == "Defender 130" && config.roof == "None")) && <WheelColor/>}
         </div>
     )
 }

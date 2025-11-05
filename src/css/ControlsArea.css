@@ -4,7 +4,6 @@
   gap: .0rem .0rem;
   align-items: start;
   justify-items: center;
-  margin-bottom: 5rem;
 }
 
 @media (max-width: 640px) {

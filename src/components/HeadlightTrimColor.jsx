@@ -15,7 +15,7 @@ function HeadlightTrimColor(){
       
       <div className="headlight-buttons">
         <button
-            className={config.headlighColor === "Match Body" ? "selected" : ""}
+            className={config.headlightColor === "Match Body" ? "selected" : ""}
             onClick={() => handleSelect("Match Body")}
         />
          <button

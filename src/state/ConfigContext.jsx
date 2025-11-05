@@ -12,7 +12,8 @@ export function ConfigProvider({ children }) {
     roofColorSoft: 'Black',
     fenderColor: 'Match Body',
     mirrorColor: 'Match Body',
-    headlightColor: 'Match Body'
+    headlightColor: 'Match Body',
+    wheelColor: 'Match Body'
   })
 
   const value = { config, setConfig }

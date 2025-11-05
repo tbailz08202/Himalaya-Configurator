@@ -30,7 +30,8 @@ function ActiveCarModel({
   roofColorSoft, 
   fenderColor, 
   mirrorColor, 
-  headlightColor
+  headlightColor,
+  wheelColor
 }) {
   const { scene } = useGLTF(url);
 
@@ -51,6 +52,7 @@ function ActiveCarModel({
     //Color option hexes
     const NAMED = {
       'Alpine White': '#fff2d0',
+      'Fuji White': '#f5f4e8',
       'Beluga Black': '#0b0b0b',
       'Sand': '#c09873',
       'Deep Green': '#263519'
@@ -59,13 +61,16 @@ function ActiveCarModel({
     const roofPaint = roofColor === "Alpine White" ?  NAMED['Alpine White'] : paint;
     const roofPaintSoft = 
       roofColorSoft === "Sand" ? NAMED["Sand"] 
-        : roofColorSoft === "Deep Green"
-      ? NAMED["Deep Green"]
+        : roofColorSoft === "Deep Green" ? NAMED["Deep Green"]
         : null;
     const fenderPaint = fenderColor === "Beluga Black" ?  NAMED['Beluga Black'] : paint;
     const mirrorPaint = mirrorColor === "Beluga Black" ? NAMED['Beluga Black'] : paint;
     const headlightPaint = headlightColor === "Beluga Black" ? NAMED['Beluga Black'] : paint;
-
+    const wheelPaint =
+      wheelColor === "Alpine White" ? NAMED["Alpine White"] 
+        : wheelColor === "Fuji White" ? NAMED["Fuji White"]
+        : wheelColor === "Beluga Black" ? NAMED["Beluga Black"]
+        : paint;
 
     const applyColor = (child, hex, opts = {}) => {
       if (!child.userData.originalMaterial) {
@@ -142,7 +147,7 @@ function ActiveCarModel({
       // Handles wheels with "Paint Secondary" material using body color
       else if (materialName === 'Paint Secondary' && (meshName.includes('Rims') 
         || meshName.includes('Wheel') || meshName.includes('Spare'))) {
-        applyColor(child, paint); 
+        applyColor(child, wheelPaint); 
         return;
       }    
 
@@ -170,7 +175,7 @@ function ActiveCarModel({
       }
     }
   )
-  }, [scene, paint, roofColor, roofColorSoft, fenderColor, mirrorColor, headlightColor]);
+  }, [scene, paint, roofColor, roofColorSoft, fenderColor, mirrorColor, headlightColor, wheelColor]);
   
   return <primitive object={scene} />;
 }
@@ -200,7 +205,7 @@ function ViewerArea() {
           <directionalLight position={[-5, 20, 0]} intensity={1} />
 
           <ActiveCarModel
-            key={activeUrl + config.paint + config.roofColor + config.fenderColor + config.headlightColor}
+            key={activeUrl + config.paint + config.roofColor + config.fenderColor + config.headlightColo + config.wheelColor}
             url={activeUrl}
             paint={config.paint}
             roofColor={config.roofColor}
@@ -208,6 +213,7 @@ function ViewerArea() {
             fenderColor={config.fenderColor}
             mirrorColor={config.mirrorColor}
             headlightColor={config.headlightColor}
+            wheelColor={config.wheelColor}
           />
 
           <ContactShadows 

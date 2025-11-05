@@ -1,0 +1,75 @@
+.wheel-color {
+  display: grid;
+  gap: 0.5rem;
+  justify-items: center;
+}
+
+.wheel-color h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+  margin-top: 1.5rem;
+  color: #333;
+  text-align: center;
+}
+
+.wheel-selected-name {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #333;
+  opacity: 0.9;
+  margin-top: -0.25rem;
+  margin-bottom: 0.25rem;
+  text-align: center;
+}
+
+.wheel-color-buttons {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+}
+
+/* --- Base button style --- */
+.wheel-color-buttons button {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(0, 0, 0, 0.15);
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+  background-color: transparent; /* body match button default */
+}
+
+/* --- Match Body (first button) --- */
+.wheel-color-buttons button:first-child::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 2px;
+  background-color: #666;
+  transform: translate(-50%, -50%) rotate(0deg);
+}
+
+.wheel-color-buttons button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12);
+}
+
+.wheel-color-buttons button.selected {
+  border-color: rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.08);
+}
+
+.wheel-color-buttons button.selected:not(:first-child)::after {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border-radius: 999px;
+  background-color: #ffffff;
+}
