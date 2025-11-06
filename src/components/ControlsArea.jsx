@@ -11,6 +11,7 @@ import HeadlightTrimColor from "./HeadlightTrimColor.jsx"
 import { useConfigurator } from "../state/ConfigContext"
 import WheelColor from './WheelColor.jsx'
 import FooterBar from './FooterBar.jsx'
+import FinishSelector from './FinishSelector.jsx'
 
 function ControlsArea(){
     const {config, setConfig} = useConfigurator()
@@ -21,11 +22,12 @@ function ControlsArea(){
             <ModelSelector/>
             <RoofSelector/>
             <PaintSelector/>
+            <FinishSelector/>
             {((config.model == "Defender 110" && (config.roof == "Soft Top" || config.roof == "None"))
             || (config.model == "Defender 90" && config.roof == "None")
-            || (config.model == "Defender 130" && config.roof == "None")) && <WheelColor/>}
+            || (config.model == "Defender 130")) && <WheelColor/>}
             <div className="container">
-                {config.roof === "Soft Top" ? <RoofColorSoft/> : <RoofColor/>}
+                {(config.roof === "Soft Top" &&  config.model !== "Defender 130")? <RoofColorSoft/> : <RoofColor/>}
                 <FenderColor/>
                 <MirrorColor/>
                 <HeadlightTrimColor/>

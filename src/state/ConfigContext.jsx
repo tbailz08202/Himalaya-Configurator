@@ -7,6 +7,7 @@ export function ConfigProvider({ children }) {
     model: 'Defender 110',  
     roof: 'Hard Top',
     paint: '#fff2d0',
+    finish: 'Gloss',
     paintName: 'Alpine White',
     roofColor: 'Match Body',
     roofColorSoft: 'Black',

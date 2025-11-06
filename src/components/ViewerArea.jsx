@@ -16,7 +16,8 @@ const MODEL_URLS = {
     'None': '/models/D110-Topless.glb'
   },
   'Defender 130': {
-    'Hard Top': '/models/D130.glb',
+    'Hard Top': '/models/D130-2.glb',
+    'Soft Top': '/models/D130-2.glb',
     'None': '/models/D130-2.glb',
   }
 };
@@ -25,7 +26,8 @@ const FALLBACK_URL = '/models/D90-Hard.glb';
 
 function ActiveCarModel({ 
   url, 
-  paint, 
+  paint,
+  finish, 
   roofColor, 
   roofColorSoft, 
   fenderColor, 
@@ -68,13 +70,15 @@ function ActiveCarModel({
     const fenderPaint = fenderColor === "Beluga Black" ?  NAMED['Beluga Black'] : paint;
     const mirrorPaint = mirrorColor === "Beluga Black" ? NAMED['Beluga Black'] : paint;
     const headlightPaint = headlightColor === "Beluga Black" ? NAMED['Beluga Black'] : paint;
-    
+    const finishParams = finish === 'Matte'? { metalness: 0.2, roughness: 0.65 } : null;
+
     const wheelPaint =
       wheelColor === "Alpine White" ? NAMED["Alpine White"] 
         : wheelColor === "Fuji White" ? NAMED["Fuji White"]
         : wheelColor === "Beluga Black" ? NAMED["Beluga Black"]
         : paint;
 
+    
     const applyColor = (child, hex, opts = {}) => {
       if (!child.userData.originalMaterial) {
         child.userData.originalMaterial = child.material.clone();
@@ -142,7 +146,8 @@ function ActiveCarModel({
         });
         return;
       }
-      ////Handles interior appearance
+
+      //Handles interior appearance
       if (materialName === 'Interior' || materialName === 'Interior Secondary') {
         applyColor(child, null, { metalness: 0, roughness: 0.9 });
         return;
@@ -150,8 +155,8 @@ function ActiveCarModel({
 
       // Handles Hard Top color change
       if (meshName.startsWith('Roof')) {
-        applyColor(child, roofPaint);  
-        return;
+        if (finishParams) applyColor(child, roofPaint, finishParams);
+        else applyColor(child, roofPaint);
       }
 
       // Handles Soft Top Color Change
@@ -169,29 +174,32 @@ function ActiveCarModel({
 
       // Handles fender colorseparately
       else if (meshName === 'Fenders' || meshName === 'BodyPaint002') {
-        applyColor(child, fenderPaint); 
-        return;
+        if (finishParams) applyColor(child, fenderPaint, finishParams);
+        else applyColor(child, fenderPaint);
       }
 
       // Handles mirror color separately
       else if (meshName === 'Mirrors_1') {
-        applyColor(child, mirrorPaint);
-        return;
+        if (finishParams) applyColor(child, mirrorPaint, finishParams);
+        else applyColor(child, mirrorPaint);
       }
 
       // Handles headlight trim color separately
       else if (isHeadlight) {
-        applyColor(child, headlightPaint);   
-        return;
+        if (finishParams) applyColor(child, headlightPaint, finishParams);
+        else applyColor(child, headlightPaint);
       }
       
       // Handles body paint Paint or Paint Matte
       else if (materialName === 'Paint' || materialName === 'Paint Matte') {
-          applyColor(child, paint);
+        if (meshName.startsWith('Roof')) return;
+
+        if (finishParams) applyColor(child, paint, finishParams);
+        else applyColor(child, paint);
       }
     }
   )
-  }, [scene, paint, roofColor, roofColorSoft, fenderColor, mirrorColor, headlightColor, wheelColor]);
+  }, [scene, paint, finish, roofColor, roofColorSoft, fenderColor, mirrorColor, headlightColor, wheelColor]);
   
   return <primitive object={scene} />;
 }
@@ -221,9 +229,10 @@ function ViewerArea() {
           <directionalLight position={[-5, 20, 0]} intensity={1} />
 
           <ActiveCarModel
-            key={activeUrl + config.paint + config.roofColor + config.fenderColor + config.headlightColo + config.wheelColor}
+            key={activeUrl + config.paint + config.finish + config.roofColor + config.fenderColor + config.headlightColor + config.wheelColor}
             url={activeUrl}
             paint={config.paint}
+            finish={config.finish}
             roofColor={config.roofColor}
             roofColorSoft={config.roofColorSoft}
             fenderColor={config.fenderColor}
