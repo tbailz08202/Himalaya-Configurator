@@ -20,7 +20,7 @@ function ControlsArea(){
         <div className="controls-area">
             <HeaderBar/>
             <ModelSelector/>
-            <RoofSelector/>
+            {config.model !== "Defender 130" && <RoofSelector/>}
             <PaintSelector/>
             <FinishSelector/>
             {((config.model == "Defender 110" && (config.roof == "Soft Top" || config.roof == "None"))
