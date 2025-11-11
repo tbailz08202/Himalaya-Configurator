@@ -23,15 +23,18 @@ function ControlsArea(){
             {config.model !== "Defender 130" && <RoofSelector/>}
             <PaintSelector/>
             <FinishSelector/>
-            {((config.model == "Defender 110" && (config.roof == "Soft Top" || config.roof == "None"))
-            || (config.model == "Defender 90" && config.roof == "None")
+            {((config.model == "Defender 110" && (config.roof == "Soft Top" || config.roof == "Crew Cab"))
             || (config.model == "Defender 130")) && <WheelColor/>}
             <div className="container">
-                {(config.roof === "Soft Top" &&  config.model !== "Defender 130")? <RoofColorSoft/> : <RoofColor/>}
+                {config.roof === "None" ? null : 
+                (config.roof === "Soft Top" && config.model !== "Defender 130") 
+                ? <RoofColorSoft /> 
+                : <RoofColor />}
                 <FenderColor/>
                 <MirrorColor/>
-                <HeadlightTrimColor/>
+                {config.roof !== "None" && <HeadlightTrimColor/>}
             </div>
+            {config.roof === "None" && <HeadlightTrimColor/>}
             <FooterBar/>
         </div>
     )

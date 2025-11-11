@@ -13,7 +13,7 @@ const MODEL_URLS = {
   'Defender 110': {
     'Hard Top': '/models/D110-Hard.glb',
     'Soft Top': '/models/D110-Soft.glb',
-    'None': '/models/D110-Topless.glb'
+    'Crew Cab': '/models/D110-CrewCab.glb'
   },
   'Defender 130': {
     'Hard Top': '/models/D130-2.glb',
@@ -126,7 +126,7 @@ function ActiveCarModel({
       }
       //Handles cage color on topless Defender 110
       if (meshName === 'Exterior_Cage_1'){
-        applyColor(child, '#0b0b0b');
+        applyColor(child, '#0b0b0b', {transparent: true, opacity: 0});
         return;
       }
 

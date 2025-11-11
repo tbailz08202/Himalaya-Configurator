@@ -80,7 +80,7 @@
   box-shadow: 0 0 0 2px rgba(0,0,0,.08);
 }
 
-.soft-buttons button:last-child.selected::after {
+.soft-buttons button.selected:not(:first-child)::after {
   content: "";
   position: absolute;
   inset: 12px;

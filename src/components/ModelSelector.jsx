@@ -1,35 +1,33 @@
 import { useConfigurator } from '../state/ConfigContext'
+import { MODEL_OPTIONS, getDefaultRoof } from '../state/RoofOptions'
 import "../css/ModelSelector.css"
 
 function ModelSelector() {
   const { config, setConfig } = useConfigurator()
   
-  const options = [
-    'Defender 130', 
-    'Defender 110',
-    'Defender 90', 
-    'Series 88', 
-    'Series 109'
-]
 
   const handleSelect = (model) => {
-    setConfig(prev => ({ ...prev, model }))  // update just the model
+    const newRoof = getDefaultRoof(model, config.roof)
+    setConfig(prev => ({ 
+      ...prev, 
+      model,
+      roof: newRoof
+    }))
   }
 
   return (
-    <div className="model-selector">
-      <h3>Model</h3>
-      {options.map((title) => (
+  <div className="model-selector">
+    <h3>Model</h3>
+      {MODEL_OPTIONS.map((title) => (
         <button
-          key={title}
-          onClick={() => handleSelect(title)}
-          className={config.model === title ? 'selected' : ''}
-        >
-          {title}
+        key={title}
+        onClick={() => handleSelect(title)}
+        className={config.model === title ? 'selected' : ''}            >
+        {title}
         </button>
       ))}
-    </div>
-  )
+      </div>
+    )
 }
 
 export default ModelSelector
