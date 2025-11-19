@@ -19,7 +19,17 @@ const MODEL_URLS = {
     'Hard Top': '/models/D130-2.glb',
     'Soft Top': '/models/D130-2.glb',
     'None': '/models/D130-2.glb',
-  }
+  },
+  'Series 88': {
+    'Hard Top': '/models/88-Hard.glb',
+    'Soft Top': '/models/88-Soft.glb',
+    'None': '/models/88-Topless.glb',
+  },
+   'Series 109': {
+    'Hard Top': '/models/109-Hard.glb',
+    'Soft Top': '/models/109-Soft.glb',
+    'None': '/models/109-Topless.glb'
+   }
 };
 
 const FALLBACK_URL = '/models/D90-Hard.glb';
@@ -105,10 +115,6 @@ function ActiveCarModel({
                           meshName === 'Headlight_Bezels001_3' || 
                           meshName === 'Headlight_Bezels003_3';
 
-      const isSoftTop = meshName === 'Soft_Top' || 
-                        meshName === "Soft_Top_1" ||  
-                        meshName === 'Soft_Top_Down_1' || 
-                        meshName === 'Soft_Top_Rolled_Up'
 
 
       //Handles tire color and appearance
@@ -154,13 +160,13 @@ function ActiveCarModel({
       }
 
       // Handles Hard Top color change
-      if (meshName.startsWith('Roof')) {
+      if (meshName === 'Roof' || meshName === "Roof_1") {
         if (finishParams) applyColor(child, roofPaint, finishParams);
         else applyColor(child, roofPaint);
       }
 
       // Handles Soft Top Color Change
-      if (isSoftTop) {
+      if (materialName === 'Soft Top') {
         applyColor(child, roofPaintSoft,{ metalness: 0.1, roughness: 0.9});  
         return;
       }
@@ -179,7 +185,7 @@ function ActiveCarModel({
       }
 
       // Handles mirror color separately
-      else if (meshName === 'Mirrors_1') {
+      else if (meshName === 'Mirrors_1' || meshName === 'Side_Mirrors_1' || meshName === 'Door_Side_Mirrors_1') {
         if (finishParams) applyColor(child, mirrorPaint, finishParams);
         else applyColor(child, mirrorPaint);
       }
@@ -191,8 +197,8 @@ function ActiveCarModel({
       }
       
       // Handles body paint Paint or Paint Matte
-      else if (materialName === 'Paint' || materialName === 'Paint Matte') {
-        if (meshName.startsWith('Roof')) return;
+      else if (materialName === 'Paint' || materialName === 'Paint Matte' || materialName === 'Paint Secondary') {
+        if (meshName === 'Roof' || meshName === "Roof_1") return;
 
         if (finishParams) applyColor(child, paint, finishParams);
         else applyColor(child, paint);

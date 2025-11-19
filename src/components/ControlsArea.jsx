@@ -14,8 +14,9 @@ import FooterBar from './FooterBar.jsx'
 import FinishSelector from './FinishSelector.jsx'
 
 function ControlsArea(){
-    const {config, setConfig} = useConfigurator()
+    const {config} = useConfigurator()
     
+    const isSeries = config.model !== 'Series 88' || config.model !== 'Series 109'
     return( 
         <div className="controls-area">
             <HeaderBar/>
@@ -24,17 +25,18 @@ function ControlsArea(){
             <PaintSelector/>
             <FinishSelector/>
             {((config.model == "Defender 110" && (config.roof == "Soft Top" || config.roof == "Crew Cab"))
-            || (config.model == "Defender 130")) && <WheelColor/>}
+            || (config.model == "Defender 130") || (config.model === "Series 88") 
+            || (config.model === "Series 109")) && <WheelColor/>}
             <div className="container">
                 {config.roof === "None" ? null : 
-                (config.roof === "Soft Top" && config.model !== "Defender 130") 
+                (config.roof === "Soft Top" && config.model !== "Defender 130")
                 ? <RoofColorSoft /> 
                 : <RoofColor />}
-                <FenderColor/>
+                {(config.model !== 'Series 88' && config.model !== 'Series 109') && <FenderColor/>}
                 <MirrorColor/>
-                {config.roof !== "None" && <HeadlightTrimColor/>}
+                {config.roof !== "None" && (config.model !== 'Series 88' && config.model !== 'Series 109') && <HeadlightTrimColor/>}
             </div>
-            {config.roof === "None" && <HeadlightTrimColor/>}
+            {(config.roof === "None" && (config.model !== 'Series 88' && config.model !== 'Series 109')) && <HeadlightTrimColor/>}
             <FooterBar/>
         </div>
     )

@@ -27,7 +27,7 @@ export const getDefaultRoof = (model, currentRoof) => {
   }
   
   // Model-specific fallback logic
-  if (model === "Defender 90") {
+  if (model === "Defender 90" || model === "Series 88" || model === "Sereies 109" ) {
     return "None" // Topless for 90
   }
   
