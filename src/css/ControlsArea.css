@@ -9,5 +9,7 @@
 @media (max-width: 640px) {
   .container {
     grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1rem;
   }
 }

@@ -160,7 +160,7 @@ function ActiveCarModel({
       }
 
       // Handles Hard Top color change
-      if (meshName === 'Roof' || meshName === "Roof_1") {
+      if (meshName === 'Roof' || meshName === "Roof_1" || meshName === "Roof_3") {
         if (finishParams) applyColor(child, roofPaint, finishParams);
         else applyColor(child, roofPaint);
       }
@@ -198,7 +198,7 @@ function ActiveCarModel({
       
       // Handles body paint Paint or Paint Matte
       else if (materialName === 'Paint' || materialName === 'Paint Matte' || materialName === 'Paint Secondary') {
-        if (meshName === 'Roof' || meshName === "Roof_1") return;
+        if (meshName === 'Roof' || meshName === "Roof_1" || meshName === "Roof_3") return;
 
         if (finishParams) applyColor(child, paint, finishParams);
         else applyColor(child, paint);
@@ -225,7 +225,7 @@ function ViewerArea() {
   }, []);
 
   return (
-    <div style={{ width: '100%', height: '100vh' }}>
+    <div style={{ width: '100%', height: '100vh' }}> 
       <Canvas camera={{ position: [3, 25, 3], fov: 10 }}>
         <Suspense fallback={null}>
           <Environment preset="city" />

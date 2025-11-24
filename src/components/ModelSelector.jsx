@@ -22,7 +22,7 @@ function ModelSelector() {
         <button
         key={title}
         onClick={() => handleSelect(title)}
-        className={config.model === title ? 'selected' : ''}            >
+        className={config.model === title ? 'selected' : ''}        >
         {title}
         </button>
       ))}

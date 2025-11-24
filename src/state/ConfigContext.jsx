@@ -4,7 +4,7 @@ const ConfigContext = createContext()
 
 export function ConfigProvider({ children }) {
   const [config, setConfig] = useState({
-    model: 'Defender 110',  
+    model: 'Defender 90',  
     roof: 'Hard Top',
     paint: '#fff2d0',
     finish: 'Gloss',

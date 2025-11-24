@@ -1,0 +1,238 @@
+.inquiry-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: transparent;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+  pointer-events: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.inquiry-sheet {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: #ffffff;
+  padding: 4rem 3.5rem;
+  width: 100%;
+  max-width: 600px;
+  overflow-y: auto;
+  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.3);
+  animation: slideIn 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+  pointer-events: auto;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.inquiry-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: transparent;
+  border: none;
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #999;
+  padding: 0.5rem;
+  transition: color 0.3s ease;
+  font-weight: 300;
+}
+
+.inquiry-close:hover {
+  color: #000;
+}
+
+.inquiry-sheet h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 2.5rem;
+  font-weight: 400;
+  color: #000;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.inquiry-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.inquiry-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  font-weight: 400;
+  color: #000;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.inquiry-form input {
+  padding: 1rem 0;
+  font-size: 1rem;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  border-radius: 0;
+  transition: border-color 0.3s ease;
+  font-family: inherit;
+  background: transparent;
+  font-weight: 300;
+}
+
+.inquiry-form input:focus {
+  outline: none;
+  border-bottom-color: #000;
+}
+
+.build-summary {
+  background: #fafafa;
+  padding: 2.5rem;
+  border-radius: 0;
+  margin-top: 1rem;
+  border-left: 3px solid #000;
+}
+
+.build-summary h3 {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: #000;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.build-summary p {
+  margin: 0.75rem 0;
+  font-size: 0.95rem;
+  color: #666;
+  line-height: 1.8;
+  font-weight: 300;
+}
+
+.build-summary strong {
+  color: #000;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+}
+
+.inquiry-submit {
+  background: #000;
+  color: #fff;
+  border: none;
+  border-radius: 0;
+  padding: 1.25rem 3rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1.5rem;
+  align-self: flex-start;
+}
+
+.inquiry-submit:hover {
+  background: #333;
+  letter-spacing: 0.2em;
+}
+
+.inquiry-form select {
+  padding: 1rem 0;
+  font-size: 1rem;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  border-radius: 0;
+  transition: border-color 0.3s ease;
+  font-family: inherit;
+  background: transparent;
+  font-weight: 300;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23000' d='M1.41 0L6 4.58 10.59 0 12 1.41l-6 6-6-6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  padding-right: 2rem;
+}
+
+.inquiry-form select:focus {
+  outline: none;
+  border-bottom-color: #000;
+}
+
+.inquiry-form select option {
+  padding: 0.5rem;
+  background: #fff;
+  color: #000;
+}
+
+.inquiry-form textarea {
+  padding: 1rem 0;
+  font-size: 1rem;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  border-radius: 0;
+  transition: border-color 0.3s ease;
+  font-family: inherit;
+  background: transparent;
+  font-weight: 300;
+  resize: vertical;
+  min-height: 100px;
+}
+
+.inquiry-form textarea:focus {
+  outline: none;
+  border-bottom-color: #000;
+}
+
+.inquiry-form textarea::placeholder {
+  color: #999;
+  font-weight: 300;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .inquiry-sheet {
+    max-width: 100%;
+    padding: 3rem 2rem;
+  }
+
+  .inquiry-sheet h2 {
+    font-size: 1.75rem;
+  }
+
+  .inquiry-form {
+    margin-top: 2rem;
+  }
+
+  .build-summary {
+    padding: 1.5rem;
+  }
+  
+  .inquiry-submit {
+    width: 100%;
+  }
+}

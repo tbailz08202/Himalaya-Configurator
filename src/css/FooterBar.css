@@ -10,16 +10,22 @@
   margin-top: 2rem;
 }
 
-.footer-bar h2 {
-  font-size: 1.5rem;
-  font-weight: 600;
+.footer-bar button {
+  font-size: 0.9rem;
+  font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.15em;
   margin: 0;
-  color: #333;
+  color: #ffffff;
+  background-color: #000000;
+  border: none;
+  border-radius: 0;
+  padding: 1.25rem 3rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.footer-bar h2::before {
+.footer-bar button::before  {
   content: '';
   position: absolute;
   top: 0;
@@ -29,3 +35,4 @@
   background: #000;
   transform: translateX(-50%);
 }
+
