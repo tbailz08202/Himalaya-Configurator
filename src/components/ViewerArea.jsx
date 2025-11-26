@@ -32,6 +32,7 @@ const MODEL_URLS = {
    }
 };
 
+const ROLL_CAGE_URL = '/accessories/D110-RollCage.glb';
 const FALLBACK_URL = '/models/D90-Hard.glb';
 
 function ActiveCarModel({ 
@@ -43,9 +44,11 @@ function ActiveCarModel({
   fenderColor, 
   mirrorColor, 
   headlightColor,
-  wheelColor
+  wheelColor,
+  rollCage
 }) {
   const { scene } = useGLTF(url);
+  const rollCageScene = rollCage ? useGLTF(ROLL_CAGE_URL).scene : null;
 
   useEffect(() => {
     if (!scene) return;
@@ -105,109 +108,120 @@ function ActiveCarModel({
       child.material = mat;
     };
 
+    const applyColorsToScene = (targetScene) => {
+      targetScene.traverse((child) => {
+        if (!child.isMesh && !child.material) return;
+
+        const materialName = child.material.name;
+        const meshName = child.name;
+        const isHeadlight = meshName === 'Headlight_Bezels001_4' || 
+                            meshName === 'Headlight_Bezels001_3' || 
+                            meshName === 'Headlight_Bezels003_3';
+
+        //Handles tire color and appearance
+        if (materialName === 'Tires') {
+          applyColor(child, '#1a1a1a', { metalness: 0, roughness: 0.9 });
+          return;
+        }
+        //Makes headlights look more realistic
+        if (materialName === 'Headlight Clear') {
+          applyColor(child, '#ffffff', { transparent: true, opacity: 0.4, metalness: 0.6, roughness: 0.05 });
+          child.material.refractionRatio = 0;
+          child.material.ior = 2;
+          child.material.needsUpdate = true;
+          return;
+        }
+        //Handles cage color on topless Defender 110
+        if (meshName === 'Exterior_Cage_1'){
+          applyColor(child, '#0b0b0b', {transparent: true, opacity: 1});
+          return;
+        }
+
+        //Handles bumper color
+        if (meshName.includes('Front_Bumper') || meshName.includes('Capped_Front_Bumper')) {
+          applyColor(child, '#292929', { metalness: 0.1, roughness: 0.3 });
+          return;
+        }
+        
+        //Handles glass appearance and tint
+        if (materialName === 'Glass') {
+          applyColor(child, '#1a1a1a', {
+            transparent: true,
+            opacity: 0.3,
+            metalness: 0.9,
+            roughness: 0.1,
+          });
+          return;
+        }
+
+        //Handles interior appearance
+        if (materialName === 'Interior' || materialName === 'Interior Secondary') {
+          applyColor(child, null, { metalness: 0, roughness: 0.9 });
+          return;
+        }
+
+        // Handles Hard Top color change
+        if (meshName === 'Roof' || meshName === "Roof_1" || meshName === "Roof_3") {
+          if (finishParams) applyColor(child, roofPaint, finishParams);
+          else applyColor(child, roofPaint);
+        }
+
+        // Handles Soft Top Color Change
+        if (materialName === 'Soft Top') {
+          applyColor(child, roofPaintSoft,{ metalness: 0.1, roughness: 0.9});  
+          return;
+        }
+        
+        // Handles wheels with "Paint Secondary" material using body color
+        else if (materialName === 'Paint Secondary' && (meshName.includes('Rims') 
+          || meshName.includes('Wheel') || meshName.includes('Spare'))) {
+          applyColor(child, wheelPaint); 
+          return;
+        }    
+
+        // Handles fender colorseparately
+        else if (meshName === 'Fenders' || meshName === 'BodyPaint002') {
+          if (finishParams) applyColor(child, fenderPaint, finishParams);
+          else applyColor(child, fenderPaint);
+        }
+
+        // Handles mirror color separately
+        else if (meshName === 'Mirrors_1' || meshName === 'Side_Mirrors_1' || meshName === 'Door_Side_Mirrors_1') {
+          if (finishParams) applyColor(child, mirrorPaint, finishParams);
+          else applyColor(child, mirrorPaint);
+        }
+
+        // Handles headlight trim color separately
+        else if (isHeadlight) {
+          if (finishParams) applyColor(child, headlightPaint, finishParams);
+          else applyColor(child, headlightPaint);
+        }
+        
+        // Handles body paint Paint or Paint Matte
+        else if (materialName === 'Paint' || materialName === 'Paint Matte' || materialName === 'Paint Secondary') {
+          if (meshName === 'Roof' || meshName === "Roof_1" || meshName === "Roof_3") return;
+
+          if (finishParams) applyColor(child, paint, finishParams);
+          else applyColor(child, paint);
+        }
+      });
+    };
+
+    // Apply colors to main car
+    applyColorsToScene(scene);
     
-    scene.traverse((child) => {
-      if (!child.isMesh && !child.material) return;
-
-      const materialName = child.material.name;
-      const meshName = child.name;
-      const isHeadlight = meshName === 'Headlight_Bezels001_4' || 
-                          meshName === 'Headlight_Bezels001_3' || 
-                          meshName === 'Headlight_Bezels003_3';
-
-
-
-      //Handles tire color and appearance
-      if (materialName === 'Tires') {
-        applyColor(child, '#1a1a1a', { metalness: 0, roughness: 0.9 });
-        return;
-      }
-      //Makes headlights look more realistic
-      if (materialName === 'Headlight Clear') {
-        applyColor(child, '#ffffff', { transparent: true, opacity: 0.4, metalness: 0.6, roughness: 0.05 });
-        child.material.refractionRatio = 0;
-        child.material.ior = 2;
-        child.material.needsUpdate = true;
-        return;
-      }
-      //Handles cage color on topless Defender 110
-      if (meshName === 'Exterior_Cage_1'){
-        applyColor(child, '#0b0b0b', {transparent: true, opacity: 0});
-        return;
-      }
-
-      //Handles bumper color
-      if (meshName.includes('Front_Bumper') || meshName.includes('Capped_Front_Bumper')) {
-        applyColor(child, '#292929', { metalness: 0.1, roughness: 0.3 });
-        return;
-       }
-      
-      //Handles glass appearance and tint
-      if (materialName === 'Glass') {
-        applyColor(child, '#1a1a1a', {
-          transparent: true,
-          opacity: 0.3,
-          metalness: 0.9,
-          roughness: 0.1,
-        });
-        return;
-      }
-
-      //Handles interior appearance
-      if (materialName === 'Interior' || materialName === 'Interior Secondary') {
-        applyColor(child, null, { metalness: 0, roughness: 0.9 });
-        return;
-      }
-
-      // Handles Hard Top color change
-      if (meshName === 'Roof' || meshName === "Roof_1" || meshName === "Roof_3") {
-        if (finishParams) applyColor(child, roofPaint, finishParams);
-        else applyColor(child, roofPaint);
-      }
-
-      // Handles Soft Top Color Change
-      if (materialName === 'Soft Top') {
-        applyColor(child, roofPaintSoft,{ metalness: 0.1, roughness: 0.9});  
-        return;
-      }
-      
-      // Handles wheels with "Paint Secondary" material using body color
-      else if (materialName === 'Paint Secondary' && (meshName.includes('Rims') 
-        || meshName.includes('Wheel') || meshName.includes('Spare'))) {
-        applyColor(child, wheelPaint); 
-        return;
-      }    
-
-      // Handles fender colorseparately
-      else if (meshName === 'Fenders' || meshName === 'BodyPaint002') {
-        if (finishParams) applyColor(child, fenderPaint, finishParams);
-        else applyColor(child, fenderPaint);
-      }
-
-      // Handles mirror color separately
-      else if (meshName === 'Mirrors_1' || meshName === 'Side_Mirrors_1' || meshName === 'Door_Side_Mirrors_1') {
-        if (finishParams) applyColor(child, mirrorPaint, finishParams);
-        else applyColor(child, mirrorPaint);
-      }
-
-      // Handles headlight trim color separately
-      else if (isHeadlight) {
-        if (finishParams) applyColor(child, headlightPaint, finishParams);
-        else applyColor(child, headlightPaint);
-      }
-      
-      // Handles body paint Paint or Paint Matte
-      else if (materialName === 'Paint' || materialName === 'Paint Matte' || materialName === 'Paint Secondary') {
-        if (meshName === 'Roof' || meshName === "Roof_1" || meshName === "Roof_3") return;
-
-        if (finishParams) applyColor(child, paint, finishParams);
-        else applyColor(child, paint);
-      }
+    // Apply colors to roll cage if present
+    if (rollCageScene) {
+      applyColorsToScene(rollCageScene);
     }
-  )
-  }, [scene, paint, finish, roofColor, roofColorSoft, fenderColor, mirrorColor, headlightColor, wheelColor]);
+  }, [scene, rollCageScene, paint, finish, roofColor, roofColorSoft, fenderColor, mirrorColor, headlightColor, wheelColor, rollCage]);
   
-  return <primitive object={scene} />;
+  return (
+    <>
+      <primitive object={scene} />
+      {rollCageScene && <primitive object={rollCageScene} />}
+    </>
+  );
 }
 
 function ViewerArea() {
@@ -222,6 +236,7 @@ function ViewerArea() {
     const urls = Object.values(MODEL_URLS).flatMap(m => Object.values(m));
     urls.forEach(u => useGLTF.preload(u));
     useGLTF.preload(FALLBACK_URL);
+    useGLTF.preload(ROLL_CAGE_URL);
   }, []);
 
   return (
@@ -235,7 +250,7 @@ function ViewerArea() {
           <directionalLight position={[-5, 20, 0]} intensity={1} />
 
           <ActiveCarModel
-            key={activeUrl + config.paint + config.finish + config.roofColor + config.fenderColor + config.headlightColor + config.wheelColor}
+            key={activeUrl + config.paint + config.finish + config.roofColor + config.fenderColor + config.headlightColor + config.wheelColor + config.rollCage}
             url={activeUrl}
             paint={config.paint}
             finish={config.finish}
@@ -245,6 +260,7 @@ function ViewerArea() {
             mirrorColor={config.mirrorColor}
             headlightColor={config.headlightColor}
             wheelColor={config.wheelColor}
+            rollCage={config.rollCage}
           />
 
           <ContactShadows 

@@ -12,6 +12,7 @@ import { useConfigurator } from "../state/ConfigContext"
 import WheelColor from './WheelColor.jsx'
 import FooterBar from './FooterBar.jsx'
 import FinishSelector from './FinishSelector.jsx'
+import RollCageOption from './RollCageOption.jsx'
 
 function ControlsArea(){
     const {config} = useConfigurator()
@@ -22,6 +23,7 @@ function ControlsArea(){
             <HeaderBar/>
             <ModelSelector/>
             {config.model !== "Defender 130" && <RoofSelector/>}
+            {config.roof === "Crew Cab" && <RollCageOption/>}
             <PaintSelector/>
             <FinishSelector/>
             {((config.model == "Defender 110" && (config.roof == "Soft Top" || config.roof == "Crew Cab"))

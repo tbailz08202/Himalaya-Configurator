@@ -14,7 +14,8 @@ export function ConfigProvider({ children }) {
     fenderColor: 'Match Body',
     mirrorColor: 'Match Body',
     headlightColor: 'Match Body',
-    wheelColor: 'Match Body'
+    wheelColor: 'Match Body',
+    rollCage: false
   })
 
   const value = { config, setConfig }
