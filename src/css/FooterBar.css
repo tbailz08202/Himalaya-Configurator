@@ -17,7 +17,7 @@
   letter-spacing: 0.15em;
   margin: 0;
   color: #ffffff;
-  background-color: #000000;
+  background-color: #000;
   border: none;
   border-radius: 0;
   padding: 1.25rem 3rem;
@@ -31,7 +31,7 @@
   top: 0;
   left: 50%;
   width: 80%;              
-  height: 3px;
+  height: 2.5px;
   background: #000;
   transform: translateX(-50%);
 }
